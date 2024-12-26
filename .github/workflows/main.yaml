@@ -1,0 +1,41 @@
+name: CI/CD Workflow Without Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t simple-ci-cd-project:latest .
+
+      - name: Verify Docker image locally
+        run: |
+          docker run -d -p 3000:3000 simple-ci-cd-project:latest
+          curl -f http://localhost:3000
