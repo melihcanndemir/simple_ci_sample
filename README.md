@@ -1,183 +1,248 @@
-# GitHub Actions ve CI/CD Yapısı Eğitim Materyali
+# 🚀 GitHub Actions ve CI/CD Projesi
 
-## 1. Giriş
-GitHub Actions, GitHub projelerinde sürekli entegrasyon (CI) ve sürekli teslimat (CD) işlemlerini otomatikleştirmek için kullanılan güçlü bir araçtır. Bu materyal, temel kavramları açıklayarak ve örneklerle destekleyerek size GitHub Actions ve CI/CD sürecini öğretmeyi amaçlamaktadır.
+Bu proje, GitHub Actions kullanarak bir Node.js uygulamasında CI/CD süreçlerinin nasıl uygulanacağını göstermek için hazırlanmıştır. Hem başlangıç seviyesi hem de ileri düzey kullanıcılar için kapsamlı bir kaynak sunmaktadır.
 
----
+## 📑 İçindekiler
 
-## 2. GitHub Actions Nedir?
-GitHub Actions, kod depolarında otomasyon iş akışları oluşturmayı sağlayan bir GitHub özelliğidir. Bu iş akışları, **YAML** dosyaları ile tanımlanır ve bir dizi görevden oluşur.
+1. [Proje Hakkında](#-proje-hakkında)
+2. [GitHub Actions Temelleri](#-github-actions-temelleri)
+3. [Proje Yapısı](#-proje-yapısı)
+4. [Kurulum ve Kullanım](#-kurulum-ve-kullanım)
+5. [CI/CD Pipeline Detayları](#-cicd-pipeline-detayları)
+6. [Test ve Geliştirme](#-test-ve-geliştirme)
+7. [Best Practices](#-best-practices)
+8. [Troubleshooting](#-troubleshooting)
 
-### Temel Bileşenler
-- **Workflow (İş Akışı):** Belirli bir olaya yanıt veren otomasyon süreci.
-- **Event (Olay):** İş akışını tetikleyen olay (örneğin, `push`, `pull_request`).
-- **Job (İş):** Bir iş akışı içinde çalıştırılan görevler grubu.
-- **Step (Adım):** Bir iş içinde çalıştırılan bağımsız görev.
-- **Runner:** İşlerin çalıştığı sanal ortam.
+## 🎯 Proje Hakkında
 
----
+Bu proje şunları içerir:
+- ✨ Basit bir Node.js web uygulaması
+- 🧪 Jest ile yazılmış test senaryoları
+- 🔄 GitHub Actions ile CI/CD pipeline
+- 🐳 Docker entegrasyonu
 
-## 3. CI/CD Nedir?
+## 🛠 GitHub Actions Temelleri
 
-### Sürekli Entegrasyon (CI)
-Sürekli entegrasyon, geliştiricilerin kodlarını sık sık birleştirerek otomatik testlerden geçirmesini sağlayan bir uygulamadır. Bu, hataların erken tespit edilmesine yardımcı olur.
+### Temel Kavramlar
 
-### Sürekli Teslimat (CD)
-Sürekli teslimat, kod değişikliklerinin otomatik olarak dağıtılmasını sağlar. Hedef, manuel müdahaleyi en aza indirerek hızlı ve güvenilir teslimatlar yapmaktır.
-
----
-
-## 4. GitHub Actions ile CI/CD Süreci Oluşturma
-
-### Adım 1: Depo Hazırlığı
-1. GitHub’da bir depo oluşturun veya mevcut bir depoyu kullanın.
-2. `main` veya `master` gibi bir ana dal belirleyin.
-
-### Adım 2: İş Akışı Dosyası Oluşturma
-1. Depo kök dizininde `.github/workflows` klasörünü oluşturun.
-2. İçinde bir YAML dosyası oluşturun, örneğin: `ci-cd.yml`.
-
+#### Workflow Yapısı
 ```yaml
 name: CI/CD Pipeline
-
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+```
 
+#### Events (Olaylar)
+```yaml
+on:
+  push:             # Push olayında tetiklen
+  pull_request:     # PR olayında tetiklen
+  schedule:         # Zamanlanmış çalışma
+    - cron: '0 0 * * *'  # Her gece yarısı
+```
+
+#### Jobs ve Steps
+```yaml
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Kod Çek
+      - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Node.js Kur
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Bağımlılıkları Yükle
-        run: npm install
-
-      - name: Test Çalıştır
-        run: npm test
-
-      - name: Üretim için Derle
-        run: npm run build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Dağıtımı Gerçekleştir
-        run: echo "Dağıtım yapıldı!"
 ```
 
-### Açıklama
-- **`on`:** İş akışını tetikleyen olayları tanımlar.
-- **`jobs`:** İş gruplarını belirtir.
-  - **`build`:** Kodun derlenmesi ve test edilmesi.
-  - **`deploy`:** Kodun dağıtılması.
-- **`steps`:** Her iş içinde yapılan görevler.
+## 📂 Proje Yapısı
 
----
+```plaintext
+project-root/
+├── .github/
+│   └── workflows/
+│       └── main.yml      # 👈 CI/CD konfigürasyonu
+├── src/
+│   └── index.js          # 👈 Ana uygulama
+├── test/
+│   └── index.test.js     # 👈 Test dosyaları
+├── package.json          # 👈 Proje bağımlılıkları
+└── README.md            # 👈 Dokümantasyon
+```
 
-## 5. Örnek: Node.js Uygulaması İçin CI/CD
+## 🚀 Kurulum ve Kullanım
 
-### Aşamalar
-1. **Kod Testi:** `npm test` ile test senaryolarını çalıştırma.
-2. **Kod Derleme:** `npm run build` ile üretime hazır kod oluşturma.
-3. **Dağıtım:** Üretim sunucusuna dağıtım.
+### Ön Gereksinimler
+- Node.js (v16+) 📦
+- npm veya yarn 🧶
+- Git 🔧
+
+### Adım Adım Kurulum
+
+1. **Projeyi Klonlayın:**
+```bash
+git clone <repo-url>
+cd <proje-dizini>
+```
+
+2. **Bağımlılıkları Yükleyin:**
+```bash
+npm install
+# veya
+yarn install
+```
+
+3. **Testleri Çalıştırın:**
+```bash
+npm test
+# veya
+yarn test
+```
+
+4. **Uygulamayı Başlatın:**
+```bash
+npm start
+# veya
+yarn start
+```
+
+## 🔄 CI/CD Pipeline Detayları
+
+### 1. Build ve Test Aşaması
+```yaml
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+```
+
+### 2. Docker Build Aşaması
+```yaml
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Docker image
+        run: docker build -t simple-ci-cd-project:latest .
+
+      - name: Test container
+        run: |
+          docker run -d -p 8080:3000 simple-ci-cd-project:latest
+          curl -f http://localhost:8080
+```
+
+## 🧪 Test ve Geliştirme
+
+### Jest Test Örneği
+```javascript
+// test/index.test.js
+describe('Uygulama Testleri', () => {
+  test('Temel matematik işlemi', () => {
+    expect(2 + 2).toBe(4);
+  });
+});
+```
+
+### Test Komutları
+```bash
+# Tüm testleri çalıştır
+npm test
+
+# Watch modunda testleri çalıştır
+npm test -- --watch
+
+# Test coverage raporu
+npm test -- --coverage
+```
+
+## 💡 Best Practices
+
+### 1. Workflow Optimizasyonu
+- ✅ Cache kullanımı
+- ✅ Paralel job çalıştırma
+- ✅ Conditional steps
 
 ```yaml
-name: Node.js CI/CD
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
     steps:
-      - name: Kod Çek
-        uses: actions/checkout@v3
-
-      - name: Node.js Kur
-        uses: actions/setup-node@v3
+      - uses: actions/cache@v3
         with:
-          node-version: '16'
-
-      - name: Bağımlılıkları Yükle
-        run: npm install
-
-      - name: Test Çalıştır
-        run: npm test
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Dağıtımı Gerçekleştir
-        run: echo "Uygulama başarıyla dağıtıldı!"
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 ```
 
----
+### 2. Güvenlik Pratikleri
+- 🔒 Secrets kullanımı
+- 🔒 Environment variables
+- 🔒 Branch protection
 
-## 6. İpuçları ve En İyi Uygulamalar
+### 3. Docker Best Practices
+- 📝 Multi-stage builds
+- 📝 Layer optimizasyonu
+- 📝 Security scanning
 
-1. **Küçük ve Tek Amaçlı İş Akışları Yazın:** Her iş akışı belirli bir görevi yerine getirmeli.
-2. **Sık Testler Yapın:** Her değişikliği test ederek hataları erkenden bulun.
-3. **Hata Yönetimi:** Hataları açık bir şekilde raporlayan bir sistem kurun.
-4. **Gizli Bilgiler için `Secrets` Kullanın:** API anahtarları veya erişim bilgilerini GitHub `Secrets` içinde saklayın.
-5. **Paralel Çalışma:** İşleri paralel çalıştırarak işlem süresini kısaltın.
+## 🔧 Troubleshooting
 
----
+### Sık Karşılaşılan Hatalar
 
-## 7. Kaynaklar
-- [GitHub Actions Resmi Dokümantasyonu](https://docs.github.com/actions)
-- [CI/CD Prensipleri](https://martinfowler.com/articles/continuousIntegration.html)
-- [YAML Söz Dizimi](https://yaml.org/)
-
----
-
-## 8. Sonuç
-Bu materyal, GitHub Actions ve CI/CD sürecini temel düzeyde anlamanıza yardımcı olacak şekilde hazırlanmıştır. Daha karmaşık senaryolar için kendi projelerinize uyarlamalar yapabilirsiniz. Kodlarınızı düzenli test edin, güvenli bir şekilde dağıtın ve otomasyonun gücünü keşfedin!
-
-<hr />
-
-# Simple CI/CD Project with Docker and GitHub Actions
-
-Bu proje, GitHub Actions kullanarak bir Node.js uygulamasını CI/CD süreçleriyle test etme, build etme ve Docker ile çalıştırmayı içerir. Amaç, CI/CD sürecini öğrenmek ve uygulamayı Docker kapsayıcısında çalıştırarak test etmektir.
-
----
-
-## Proje Yapısı
-
-### Dosya ve Dizinler
-- **index.js**: Basit bir Node.js uygulaması.
-- **test/index.test.js**: Jest kullanılarak yazılmış bir test dosyası.
-- **Dockerfile**: Uygulamanın Docker imajını oluşturmak için gerekli yapılandırma dosyası.
-- **.github/workflows/main.yml**: CI/CD sürecini yöneten GitHub Actions workflow dosyası.
-
----
-
-## Kurulum ve Çalıştırma
-
-### Gereksinimler
-- Node.js yüklü olmalı.
-- Docker yüklü olmalı.
-
-### Projeyi Klonlama ve Çalıştırma
+1. **Build Hataları**
 ```bash
-git clone <REPO_URL>
-cd simple-ci-cd-project
+# Node modüllerini temizleyin
+rm -rf node_modules
 npm install
-node index.js
+
+# Cache'i temizleyin
+npm cache clean --force
+```
+
+2. **Docker Hataları**
+```bash
+# Docker loglarını kontrol edin
+docker logs <container-id>
+
+# Docker sistemi temizleyin
+docker system prune -a
+```
+
+### Debug İpuçları
+- 🔍 GitHub Actions debug logging aktifleştirme
+- 🔍 Workflow'da debug steps ekleme
+- 🔍 Local Docker testing
+
+## 📚 Yararlanılan Kaynaklar
+
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
+- [Docker Documentation](https://docs.docker.com)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+
+## 📝 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasını inceleyebilirsiniz.
+
+---
+
+## 🤝 Katkıda Bulunma
+
+1. Fork yapın
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit yapın (`git commit -m 'feat: Add amazing feature'`)
+4. Push yapın (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+---
+
+Made with ❤️ by Melih Can Demir
