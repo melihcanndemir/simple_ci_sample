@@ -150,3 +150,34 @@ jobs:
 
 ## 8. Sonuç
 Bu materyal, GitHub Actions ve CI/CD sürecini temel düzeyde anlamanıza yardımcı olacak şekilde hazırlanmıştır. Daha karmaşık senaryolar için kendi projelerinize uyarlamalar yapabilirsiniz. Kodlarınızı düzenli test edin, güvenli bir şekilde dağıtın ve otomasyonun gücünü keşfedin!
+
+<hr />
+
+# Simple CI/CD Project with Docker and GitHub Actions
+
+Bu proje, GitHub Actions kullanarak bir Node.js uygulamasını CI/CD süreçleriyle test etme, build etme ve Docker ile çalıştırmayı içerir. Amaç, CI/CD sürecini öğrenmek ve uygulamayı Docker kapsayıcısında çalıştırarak test etmektir.
+
+---
+
+## Proje Yapısı
+
+### Dosya ve Dizinler
+- **index.js**: Basit bir Node.js uygulaması.
+- **test/index.test.js**: Jest kullanılarak yazılmış bir test dosyası.
+- **Dockerfile**: Uygulamanın Docker imajını oluşturmak için gerekli yapılandırma dosyası.
+- **.github/workflows/main.yml**: CI/CD sürecini yöneten GitHub Actions workflow dosyası.
+
+---
+
+## Kurulum ve Çalıştırma
+
+### Gereksinimler
+- Node.js yüklü olmalı.
+- Docker yüklü olmalı.
+
+### Projeyi Klonlama ve Çalıştırma
+```bash
+git clone <REPO_URL>
+cd simple-ci-cd-project
+npm install
+node index.js
