@@ -37,5 +37,10 @@ jobs:
 
       - name: Verify Docker image locally
         run: |
-          docker run -d -p 3000:3000 simple-ci-cd-project:latest
-          curl -f http://localhost:3000
+          docker run --name simple-container -d -p 8080:3000 simple-ci-cd-project:latest
+          docker ps -a  # Kapsayıcı durumunu listele
+          docker logs simple-container  # Kapsayıcı loglarını kontrol et
+          sleep 10
+          curl -f http://localhost:8080
+          docker stop simple-container
+
