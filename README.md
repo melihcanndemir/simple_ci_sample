@@ -16,10 +16,17 @@ Bu proje, GitHub Actions kullanarak bir Node.js uygulamasında CI/CD süreçleri
 ## 🎯 Proje Hakkında
 
 Bu proje şunları içerir:
-- ✨ Basit bir Node.js web uygulaması
+- ✨ Basit bir Node.js web uygulaması (Çalışan demo: http://localhost:3000)
 - 🧪 Jest ile yazılmış test senaryoları
 - 🔄 GitHub Actions ile CI/CD pipeline
 - 🐳 Docker entegrasyonu
+- 🌐 "Hello, World!" endpoint'i
+
+### 📌 Proje Durumu
+- ✅ Uygulama başarıyla çalışıyor
+- ✅ Testler hazır
+- ✅ CI/CD pipeline aktif
+- ✅ Docker entegrasyonu hazır
 
 ## 🛠 GitHub Actions Temelleri
 
